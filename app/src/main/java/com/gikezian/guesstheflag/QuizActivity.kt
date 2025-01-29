@@ -37,22 +37,28 @@ class QuizActivity : AppCompatActivity() {
 
 
     private fun getFlagDataFromViewModel() {
-        CoroutineScope(Dispatchers.Main).launch{
-            val request = viewModel.getFlagDataInViewModel()
+        // Observe the LiveData from ViewModel
+        viewModel.getFlagDataInViewModel().observe(this, { request ->
             Log.d(TAG, "request is $request")
-            if (request != null) {
+
+            // Check if the request is not null and has flagCodes
+            if (request?.flagCodes != null) {
                 Log.d(TAG, "request.flagCodes is ${request.flagCodes}")
-            }
-            if(request?.flagCodes != null){
                 val flagCodes = request.flagCodes
-                val randomCountryCode = request.flagCodes.keys.random()
+                val randomCountryCode = flagCodes.keys.random()
                 val flagUrl = "https://flagcdn.com/w2560/${randomCountryCode}.png"
-                // Load the image using Picasso
+
+                // Load the flag image using Picasso
                 Picasso.get().load(flagUrl).into(binding.flagPicture)
                 binding.textView2.text = flagCodes[randomCountryCode].toString()
+            } else {
+                Log.e(TAG, "Flag data is null or empty")
+                // Display a placeholder image if flag data is empty or null
+                binding.flagPicture.setImageResource(R.drawable.placeholder_flag)
             }
-        }
+        })
     }
+
 
     private fun getFlagDataFromJSON() {
         CoroutineScope(Dispatchers.Main).launch {
