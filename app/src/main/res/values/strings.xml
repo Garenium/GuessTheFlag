@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GuessTheFlag</string>
+    <string name="flag_image">Boiler flag</string>
+    <string name="main_act_title">Guess the Flag!</string>
+    <string name="main_act_start">Start!</string>
+    <string name="main_act_settings">Settings</string>
+    <string name="main_act_about">About</string>
+</resources>
